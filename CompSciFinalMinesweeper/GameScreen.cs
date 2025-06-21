@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -23,6 +23,7 @@ namespace CompSciFinalMinesweeper
         Random randomGen = new Random();
         bool _flagSelect = false;
         bool loss = false;
+        int minesClicked;
 
         public GameScreen()
         {
@@ -43,6 +44,8 @@ namespace CompSciFinalMinesweeper
         //Placing rectangle at cursor coordinates
             click = new Rectangle(cursorX, cursorY, 10, 10);
             Refresh();
+
+            
         }
 
         private void GameScreen_Click(object sender, EventArgs e)
@@ -77,10 +80,22 @@ namespace CompSciFinalMinesweeper
                     {
                     //Same case as bricks
                         clickedFlag.Add(mine.mineRect);
+                        minesClicked++;
+
+                        if (minesClicked == mines.Count())
+                        {
+                            loss = false;
+                            GameOver();
+                            return;
+                        }
                     }
                     else
                     {
+
                     //If you click on a mine when you don't have flag toggled on then call Game Over
+
+                        loss = true;
+
                         GameOver();
                         return;
                     }
@@ -153,7 +168,16 @@ namespace CompSciFinalMinesweeper
 
         //Display message
             instructionsLabel.Visible = true;
-            instructionsLabel.Text = "YOU LOST, PRESS + TO PLAY AGAIN";
+
+            if (loss == true)
+            {
+                instructionsLabel.Text = "YOU LOST, PRESS + TO PLAY AGAIN";
+            }
+            else
+            {
+                instructionsLabel.Text = "YOU WON, PRESS + TO PLAY AGAIN";
+            }
+            
         }
 
         private Image DisplayNearMines(int nearMines)
@@ -245,12 +269,10 @@ namespace CompSciFinalMinesweeper
             CalculateNearMines();
             Refresh();
 
-            if (loss == true)
-            {
-                instructionsLabel.Text = "- Click on flag icon to toggle to flagging items, click to switch back\r\n- Click on plus icon to restart game\r\n- Click ESC key to leave game\r\n- When a square is uncovered and does not display a number that means that there are no mines nearby\r\n- Click on this label to close it :)\r\n";
-                instructionsLabel.Visible = false;
-                loss = false;
-            }
+            instructionsLabel.Text = "- Click on flag icon to toggle to flagging items, click to switch back\r\n- Click on plus icon to restart game\r\n- Click ESC key to leave game\r\n- When a square is uncovered and does not display a number that means that there are no mines nearby\r\n- Click on this label to close it :)\r\n";
+            instructionsLabel.Visible = false;
+            loss = false;
+
         }
 
         private void infoSelect_Click(object sender, EventArgs e)
