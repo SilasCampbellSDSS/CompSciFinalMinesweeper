@@ -19,6 +19,7 @@ namespace CompSciFinalMinesweeper
 
         private void label2_Click(object sender, EventArgs e)
         {
+        //Switching screens
             Form f = this.FindForm();
             f.Controls.Remove(this);
 
