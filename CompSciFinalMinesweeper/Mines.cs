@@ -9,6 +9,7 @@ namespace CompSciFinalMinesweeper
 {
     class Mines
     {
+        //Creating mines in a class
         public static int mineDimensions = 36;
         public Rectangle mineRect;
 
