@@ -34,6 +34,7 @@ namespace CompSciFinalMinesweeper
             mineNumber.Text = $"{mines.Count - clickedFlag.Count}";
             int cursorX = Cursor.Position.X;
             int cursorY = Cursor.Position.Y - 20;
+
             click = new Rectangle(cursorX, cursorY, 10, 10);
             Refresh();
         }
@@ -49,8 +50,10 @@ namespace CompSciFinalMinesweeper
                         if (!bricks[i].isFlagged && !bricks[i].isRevealed)
                         {
                             if (!clickedFlag.Contains(bricks[i].rect))
+                            {
                                 clickedFlag.Add(bricks[i].rect);
-
+                            }
+                                
                             bricks[i].isFlagged = true;
                         }
                         else if (bricks[i].isFlagged)
@@ -79,7 +82,9 @@ namespace CompSciFinalMinesweeper
                         if (!mines[i].isFlagged)
                         {
                             if (!clickedFlag.Contains(mines[i].mineRect))
+                            {
                                 clickedFlag.Add(mines[i].mineRect);
+                            }
 
                             mines[i].isFlagged = true;
                             minesClicked++;
@@ -160,9 +165,15 @@ namespace CompSciFinalMinesweeper
         public void GameOver()
         {
             instructionsLabel.Visible = true;
-            instructionsLabel.Text = loss
-                ? "YOU LOST, PRESS + TO PLAY AGAIN"
-                : "YOU WON, PRESS + TO PLAY AGAIN";
+
+            if (loss)
+            {
+                instructionsLabel.Text = "YOU LOST, PRESS + TO PLAY AGAIN";
+            }
+            else
+            {
+                instructionsLabel.Text = "YOU WON, PRESS + TO PLAY AGAIN";
+            }
         }
 
         private Image DisplayNearMines(int nearMines)
